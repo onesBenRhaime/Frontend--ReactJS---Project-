@@ -66,7 +66,7 @@ export const logout = (navigate) => async (dispatch) => {
 	sessionService.deleteSession();
 	sessionService.deleteUser();
 	localStorage.removeItem("jwt");
-	navigate("/login");
+	navigate("/home");
 	dispatch({ type: USER_LOGOUT });
 };
 
@@ -128,7 +128,7 @@ export const RestPsw = (data, navigate) => async (dispatch) => {
 				} else {
 					const userDATA = data;
 					console.log(userDATA);
-					navigate("/");
+					navigate("/home");
 				}
 			});
 	} catch (error) {

@@ -6,6 +6,8 @@ import Header from "../Topbar";
 export default function ListeC() {
 	const [loading, setLoading] = useState(true);
 	const [listColl, setlistColl] = useState([]);
+	// const [collD, setCollD] = useState([]);
+	const [email, setEmail] = useState("");
 	useEffect(() => {
 		const getAllColl = async () => {
 			await axios
@@ -22,26 +24,38 @@ export default function ListeC() {
 		};
 		getAllColl();
 	}, []);
-
+	const deleteOneColl = async (email) => {
+		await axios
+			.delete(`http://localhost:3000/api/admin/deleteUser?email=${email}`)
+			.then((response) => {
+				console.log("/*****delete Collaborateur******/", response);
+				//filtrage
+				const coll = listColl.filter((coll) => coll.email !== email);
+				setlistColl(coll);
+			})
+			.catch((err) => {
+				console.log(err.message);
+			});
+	};
+	//delet query takhouha il dakhil
 	return (
 		<div>
 			<Menu />
 			<Header />
 			<div className="wrapper">
 				<div className="content-wrapper" style={{ backgroundColor: "white" }}>
-					<div className="row">
-						<div className="col-8">
-							<h2
-								style={{
-									color: "#ff7900",
-									marginLeft: "50px",
-									marginTop: "30px",
-								}}
-							>
-								Liste des Collaborateur Orange
-							</h2>
-						</div>
+					<div className="col-8">
+						<h2
+							style={{
+								color: "#ff7900",
+								marginLeft: "50px",
+								marginTop: "30px",
+							}}
+						>
+							Liste des Collaborateur Orange
+						</h2>
 					</div>
+
 					<section className="content">
 						{loading ? (
 							<div class="position-relative" style={{ marginTop: "20rem" }}>
@@ -54,7 +68,6 @@ export default function ListeC() {
 								</div>
 							</div>
 						) : (
-							// <table className="table  table-hover table-striped">
 							<div style={{ margin: "50px" }}>
 								<table className="table table-hover">
 									<thead>
@@ -81,8 +94,8 @@ export default function ListeC() {
 													<td class=" justify-content-center">
 														<a
 															href="#modal-compte"
-															className="btn btn-success"
 															data-bs-toggle="modal"
+															className="btn btn-success"
 														>
 															<i className="fas fa-eye" />
 														</a>
@@ -90,6 +103,11 @@ export default function ListeC() {
 															href="#modal-supp"
 															className="btn btn-danger"
 															data-bs-toggle="modal"
+															value={index}
+															name="idC"
+															onClick={() => {
+																setEmail(item.email);
+															}}
 														>
 															<i className="fas fa-trash" />
 														</a>{" "}
@@ -106,38 +124,7 @@ export default function ListeC() {
 			</div>
 
 			{/**Modals  Collaborateur  */}
-			<div className="modal fade" id="modal-supp">
-				<div className="modal-dialog">
-					<div className="modal-content">
-						<div className="modal-header">
-							<h4 className="modal-title">
-								Désactiver une compte Collaborateur
-							</h4>
-						</div>
-						<div className="modal-body">
-							<p class="d-flex justify-content-center">
-								<br /> Êtes-vous sûr de vouloir désactiver ce compte ?
-							</p>
-						</div>
-						<div className="modal-footer justify-content-between">
-							<button
-								type="button"
-								className="btn btn-default"
-								data-bs-dismiss="modal"
-							>
-								Close
-							</button>
-
-							<button type="button" className="btn btn-danger">
-								<i className="fas fa-trash" />
-							</button>
-						</div>
-					</div>
-					{/* /.modal-content */}
-				</div>
-				{/* /.modal-dialog */}
-			</div>
-
+			{/* info */}
 			<div className="modal fade" id="modal-compte">
 				<div className="modal-dialog">
 					<div className="modal-content">
@@ -174,6 +161,50 @@ export default function ListeC() {
 									</li>
 								</ul>
 							</div>
+						</div>
+					</div>
+					{/* /.modal-content */}
+				</div>
+				{/* /.modal-dialog */}
+			</div>
+			{/* delete */}
+			<div className="modal fade" id="modal-supp">
+				<div className="modal-dialog">
+					<div className="modal-content">
+						<div className="modal-header">
+							<h4 className="modal-title">
+								Désactiver une compte Collaborateur
+							</h4>
+						</div>
+						<div className="modal-body">
+							<p class="d-flex justify-content-center">
+								<br /> Êtes-vous sûr de vouloir désactiver ce compte ?
+							</p>
+						</div>
+						<div className="modal-footer justify-content-between">
+							<button
+								type="button"
+								className="btn btn-default"
+								data-bs-dismiss="modal"
+							>
+								Close
+							</button>
+
+							<button
+								type="button"
+								className="btn btn-danger"
+								data-bs-dismiss="modal"
+								onClick={() => {
+									deleteOneColl(email);
+								}}
+								//	{(e) => {
+								// 	handleChange(e);
+								// 	getAllCategorie(e.target.value, domaine);
+								// 	getQByDomaine(e.target.value);
+								// }}
+							>
+								<i className="fas fa-trash" />
+							</button>
 						</div>
 					</div>
 					{/* /.modal-content */}

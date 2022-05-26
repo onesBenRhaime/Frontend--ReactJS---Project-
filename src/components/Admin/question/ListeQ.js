@@ -1,19 +1,22 @@
 import { CircularProgress } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Menu from "../Sidebar";
 import Header from "../Topbar";
 export default function ListeQ() {
+	const params = useParams();
+	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
 	const [listQ, setlistQ] = useState([]);
 	const [idQ, setIdQ] = useState("");
 	useEffect(() => {
 		const getAllQuestion = async () => {
+			console.log("/***** Get All Questions ******/");
 			await axios
 				.get(`http://localhost:3000/api/admin/allQuestions`)
 				.then((response) => {
-					console.log("/***** Get All Questions ******/", response);
+					console.log(response);
 					setlistQ(response.data.questions);
 					setLoading(false);
 				})
@@ -26,14 +29,22 @@ export default function ListeQ() {
 	}, []);
 
 	const delQuestion = async (id) => {
+		console.log("/*****delete Question******/");
 		await axios
 			.delete(`http://localhost:3000/api/admin/deleteQuestion?id=${id}`)
 			.then((response) => {
-				console.log(" 0000 : ", response);
+				console.log(response);
+				//filtrage
+				const qu = listQ.filter((qu) => qu._id !== id);
+				setlistQ(qu);
 			})
 			.catch((err) => {
 				console.log(err.message);
 			});
+	};
+	const goToUpdate = (id) => {
+		console.log("nafigate to Q : ", id);
+		navigate("/InfoQuestion/" + id);
 	};
 	return (
 		<div>
@@ -41,19 +52,18 @@ export default function ListeQ() {
 			<Header />
 			<div className="wrapper">
 				<div className="content-wrapper" style={{ backgroundColor: "white" }}>
-					<div className="row">
-						<div className="col-8">
-							<h2
-								style={{
-									color: "#ff7900",
-									marginLeft: "50px",
-									marginTop: "30px",
-								}}
-							>
-								Liste des Questions{" "}
-							</h2>
-						</div>
+					<div className="col-8">
+						<h2
+							style={{
+								color: "#ff7900",
+								marginLeft: "50px",
+								marginTop: "30px",
+							}}
+						>
+							Liste des Questions{" "}
+						</h2>
 					</div>
+
 					<section className="content">
 						<div className="card-body">
 							{loading ? (
@@ -91,20 +101,21 @@ export default function ListeQ() {
 													<td>{item.niveau}</td>
 													<td>
 														<div class="d-flex justify-content-center">
-															<Link
-																to="/InfoQuestion"
+															<button
+																//	to="/InfoQuestion"
 																className="btn btn-success"
+																onClick={() => goToUpdate(item._id)}
 															>
 																<i className="fas fa-eye" />
-															</Link>
+															</button>
 
 															<a
 																data-bs-toggle="modal"
-																href="#exampleModalToggle"
+																href="#modelSupp"
 																className="btn btn-danger"
 																value={index}
 																name="idQ"
-																onChange={() => setIdQ(item._id)}
+																onClick={() => setIdQ(item._id)}
 															>
 																<i className="fas fa-trash" />
 															</a>
@@ -122,7 +133,7 @@ export default function ListeQ() {
 
 					<div
 						class="modal fade"
-						id="exampleModalToggle"
+						id="modelSupp"
 						aria-hidden="true"
 						aria-labelledby="exampleModalToggleLabel"
 						tabindex="-1"

@@ -133,18 +133,16 @@ export default function AddQ() {
 			<div className="wrapper card">
 				<div className="content-wrapper" style={{ backgroundColor: "white" }}>
 					<div style={{ marginTop: "20px" }}>
-						<div className="row">
-							<div className="col-4">
-								<h3
-									style={{
-										color: "#ff7900",
-										marginLeft: "10px",
-									}}
-								>
-									Ajouter une question
-								</h3>
-							</div>
-						</div>{" "}
+						<div className="col-4">
+							<h3
+								style={{
+									color: "#ff7900",
+									marginLeft: "10px",
+								}}
+							>
+								Ajouter une question
+							</h3>
+						</div>
 					</div>
 					<section class="container">
 						<div className="card-body">

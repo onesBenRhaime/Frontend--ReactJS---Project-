@@ -1,6 +1,6 @@
 import React from "react";
 
-import logo from "./logoAdmin.PNG";
+import logo from "./logoP.png";
 
 export default function Navbar() {
 	return (
@@ -9,14 +9,9 @@ export default function Navbar() {
 				{/* As a link */}
 				<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
 					<div className="container-fluid">
-						<div className=" navbar-brand">
-							<img
-								src={logo}
-								width={180}
-								height={80}
-								alt="Boosted"
-								loading="lazy"
-							/>
+						<div className=" ">
+							<img src={logo} alt="" width={70} height={70} />
+
 							<span className="h1">Orange Test</span>
 						</div>
 					</div>

@@ -6,6 +6,8 @@ import Index from "./components/Index";
 /*  Index Login  */
 
 import Home from "./components/Home";
+import ForgetPsw from "./components/HomeForgetPsw";
+import Register from "./components/HomeRegister";
 import Forget from "./components/ForgotPassword";
 import NotFound from "./components/NotFound";
 import Dashboard from "./components/Admin/Dashboard";
@@ -23,7 +25,7 @@ import ListeC from "./components/Admin/collaborateur/ListeC";
 import Profile from "./components/Admin/Profile";
 import Importer from "./components/collaborateur/manageSession/Importer";
 
-import Register from "./components/Register";
+import Register2 from "./components/Register";
 import AuthRoute from "./Utils/AuthRoutes";
 import BaseRoute from "./Utils/BaseRoutes";
 import LoginCandidat from "./components/Candidat/login";
@@ -62,7 +64,9 @@ function App() {
 			<Router>
 				<Routes>
 					{/*......................Route Users.................... */}
-					<Route path="/home" element={<Home />}></Route>
+					<Route path="/home" element={<Home />}></Route>{" "}
+					<Route path="/Forget" element={<ForgetPsw />}></Route>
+					<Route path="/Register" element={<Register />}></Route>
 					<Route
 						path="/"
 						element={
@@ -161,6 +165,14 @@ function App() {
 					/>
 					<Route
 						path="/InfoQuestion"
+						element={
+							<BaseRoute>
+								<InfoQ />
+							</BaseRoute>
+						}
+					/>
+					<Route
+						path="/InfoQuestion/:idQ"
 						element={
 							<BaseRoute>
 								<InfoQ />

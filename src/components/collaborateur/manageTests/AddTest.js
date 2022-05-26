@@ -23,7 +23,7 @@ export default function TestCandidat() {
 		candidat: "",
 	});
 	console.log("Liste Question : ", listQ);
-	/*Get All Tech +Dom + Cat */
+	/*Get All Dom  */
 	useEffect(() => {
 		const getAllDomaine = async () => {
 			await axios
@@ -113,7 +113,7 @@ export default function TestCandidat() {
 				questions,
 			})
 			.then((response) => {
-				console.log(response.data.message);
+				console.log(response.data);
 			})
 			.catch((err) => {
 				console.log(err.message);
@@ -195,29 +195,7 @@ export default function TestCandidat() {
 									{/* select categorie*/}
 									<div className="col-3">
 										<label>Catégories</label>
-										{/* <input
-											type="text"
-											className="form-control"
-											name="categorie"
-											value={test.categorie}
-											onChange={handleChange}
-										/> */}
-										<label>Catégories</label>
-										{/* <input
-											className="form-control"
-											list="categorie"
-											name="categorie"
-											value={test.categorie}
-											onChange={(e) => {
-												handleChange(e);
-												getAllTech(e);
-											}}
-										/>
-										<datalist id="categorie">
-											{categorie.map((item, index) => (
-												<option value={item.nom} key={index}></option>
-											))}
-										</datalist> */}
+
 										<select
 											className="form-select"
 											name="categorie"
@@ -227,7 +205,7 @@ export default function TestCandidat() {
 												getAllTech(e);
 											}}
 										>
-											<option>NNNN</option>
+											<option>Séléctionner ....</option>
 											{categorie.map((item, index) => (
 												<option value={item.nom} key={index}>
 													{item.nom}
@@ -252,7 +230,7 @@ export default function TestCandidat() {
 														setListQF(l);
 													}}
 												>
-													<option>select tech</option>
+													<option>Séléctionner ....</option>
 													{tech.map((item, index) => (
 														<option value={item.nom} key={index}>
 															{item.nom}
@@ -346,7 +324,7 @@ export default function TestCandidat() {
 												value={test.candidat}
 												onChange={handleChange}
 											>
-												<option> select Candidat</option>
+												<option>Séléctionner ....</option>
 												{listE.map((item, index) => (
 													<option value={item.email} key={index}>
 														{item.email}
@@ -359,7 +337,6 @@ export default function TestCandidat() {
 												type="submit"
 												class="btn btn-primary position-relative"
 												data-bs-toggle="modal"
-												// href="#exampleModalToggle"
 											>
 												Envoyer
 											</Button>

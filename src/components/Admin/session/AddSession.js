@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import SideBar from "../Sidebar";
 import Navbar from "../Topbar";
@@ -7,6 +7,21 @@ import Navbar from "../Topbar";
 export default function AddSession() {
 	const [file, setFile] = useState();
 	const [fileName, setFileName] = useState("");
+	const [listE, setListE] = useState([]);
+	useEffect(() => {
+		const getAllCollaborateur = async () => {
+			await axios
+				.get(`http://localhost:3000/api/admin/getEmail`, {})
+				.then((response) => {
+					console.log("candidat : ", response.data);
+					setListE(response.data);
+				})
+				.catch((err) => {
+					console.log(err.message);
+				});
+		};
+		getAllCollaborateur();
+	}, []);
 
 	const saveFile = (e) => {
 		setFile(e.target.files[0]);
@@ -156,14 +171,28 @@ export default function AddSession() {
 									<div className="col-6">
 										<div className="form-group">
 											<label>Responsable</label>
-											<input
+											{/* <input
 												type="email"
 												name="responsable"
 												className="form-control"
 												value={responsable}
 												onChange={handleChange}
 												required
-											/>
+											/> */}
+											<select
+												class="form-select"
+												name="responsable"
+												value={responsable}
+												onChange={handleChange}
+												required
+											>
+												<option> select collaborateur</option>
+												{listE.map((item, index) => (
+													<option value={item.email} key={index}>
+														{item.email}
+													</option>
+												))}
+											</select>
 										</div>{" "}
 									</div>
 									<div className="col-6">

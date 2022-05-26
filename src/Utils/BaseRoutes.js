@@ -6,7 +6,7 @@ const BaseRoute = ({ children }) => {
 		return (
 			<Navigate
 				replace
-				to="/login"
+				to="/home"
 				state={{
 					from: location,
 				}}

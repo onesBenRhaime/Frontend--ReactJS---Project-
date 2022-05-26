@@ -3,10 +3,16 @@ import SideBar from "../SideBar";
 import Navbar from "../Navbar";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
+
 import axios from "axios";
 import { CircularProgress } from "@material-ui/core";
 
 export default function ListeCandidat() {
+	const openInNewTab = (url) => {
+		const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+		if (newWindow) newWindow.opener = null;
+	};
+	const [lisEmail, setLisEmail] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [listCandidt, setListCandidt] = useState([]);
 	useEffect(() => {
@@ -17,6 +23,7 @@ export default function ListeCandidat() {
 				.then((response) => {
 					console.log("/*****Export data from  excel ******/", response);
 					setListCandidt(response.data);
+					console.log("/*****Export data from  excel ******/", listCandidt);
 					setLoading(false);
 				})
 				.catch((err) => {
@@ -26,6 +33,28 @@ export default function ListeCandidat() {
 		};
 		getAllCandidatSession();
 	}, []);
+	const ListeInviter = (item) => {
+		const lc = listCandidt.find((lc, i) => lc._id === item._id); //cheacked
+		if (lc) {
+			console.log(lc);
+			const ls = listCandidt.filter((lc) => lc._id !== item.id);
+			console.log(ls);
+			setLisEmail(ls.email);
+		} else {
+			setLisEmail([...setLisEmail, item.email]);
+			console.log(lisEmail);
+		}
+	};
+	const addAcount = async () => {
+		await axios
+			.post(`http://localhost:3000/api/candidat/addAccount`, lisEmail)
+			.then((response) => {
+				console.log("/*****Add Account  ******/", response.message);
+			})
+			.catch((err) => {
+				console.log(err.message);
+			});
+	};
 
 	return (
 		<div>
@@ -49,11 +78,14 @@ export default function ListeCandidat() {
 							<div
 								className="col-3"
 								style={{
-									// marginLeft: "60px",
 									marginTop: "30px",
 								}}
 							>
-								<Button type="submit" class="btn btn-primary ">
+								<Button
+									type="submit"
+									class="btn btn-primary "
+									onClick={addAcount}
+								>
 									Génerer des comptes temporelle
 								</Button>
 							</div>
@@ -78,15 +110,11 @@ export default function ListeCandidat() {
 									</div>
 								</div>
 							) : (
-								<table className="table table-hover has-checkbox">
+								<table className="table table-hover ">
 									<thead>
 										<tr>
 											<th scope="col">
-												<input
-													type="checkbox"
-													id="customCheck1"
-													autoComplete="off"
-												/>
+												<input type="checkbox" />
 											</th>
 											<th scope="col">Nom</th>
 											<th scope="col">Prenom</th>
@@ -103,15 +131,22 @@ export default function ListeCandidat() {
 													<th scope="row">
 														<input
 															type="checkbox"
-															id="customCheck2"
-															autoComplete="off"
+															onChange={() => ListeInviter(item)}
 														/>
 													</th>
 													<td>{item.nom}</td>
 													<td>{item.prenom}</td>
 													<td>{item.email}</td>
 													<td>{item.tel}</td>
-													<td>{item.cv}</td>
+
+													<td
+														data-bs-target="#lectureCv"
+														data-bs-toggle="modal"
+														onClick={() => openInNewTab(item.cv)}
+													>
+														Cv Candidat
+													</td>
+
 													<td>{item.profil}</td>
 												</tr>
 											);

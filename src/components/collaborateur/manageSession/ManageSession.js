@@ -9,12 +9,13 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 export default function MesSession() {
 	const session = useSelector((state) => state.session);
-
+	console.log(session);
 	const [loading, setLoading] = useState(true);
 	const [listSess, setlistSess] = useState([]);
 	useEffect(() => {
 		const getSession = async () => {
-			const email = session.user.user.email;
+			console.log(session);
+			const email = session.user.email;
 			await axios
 				.get(`http://localhost:3000/api/admin/getSessionByResp?email=${email}`)
 				.then((response) => {
@@ -27,8 +28,10 @@ export default function MesSession() {
 					setLoading(false);
 				});
 		};
-		getSession();
-	}, []);
+		if (session.user?.email) {
+			getSession();
+		}
+	}, [session.user.email]);
 	return (
 		<div>
 			<Menu />
@@ -64,7 +67,7 @@ export default function MesSession() {
 							<div className="row">
 								{listSess.map((item, index) => {
 									return (
-										<div class="col-sm-5">
+										<div class="col-sm-5" key={index}>
 											<div class="card">
 												<div class="card-body">
 													<h4 class="title">{item.nom}</h4>

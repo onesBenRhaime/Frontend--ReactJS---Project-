@@ -4,7 +4,6 @@ import {
 	USER_LOGIN_FAIL,
 	USER_LOGIN_REQUEST,
 	USER_LOGIN_SUCCESS,
-	USER_LOGOUT,
 } from "../constant/userConstant";
 
 export const login = (data, navigate) => async (dispatch) => {
@@ -99,5 +98,4 @@ export const logout = (navigate) => async (dispatch) => {
 	sessionService.deleteSession();
 	sessionService.deleteUser();
 	navigate("/candidat");
-	dispatch({ type: USER_LOGOUT });
 };

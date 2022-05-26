@@ -9,26 +9,7 @@ export default function Profile() {
 	const session = useSelector((state) => state.session);
 	const { user } = session.user;
 	console.log(user);
-	/** */
-	/** */
 
-	const [data, setData] = useState({
-		email: user.email,
-		tel: "",
-		adresse: "",
-	});
-
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const handleChange = (e) => {
-		setData({ ...data, [e.target.name]: e.target.value });
-	};
-
-	const handleEditProfile = async (e) => {
-		e.preventDefault();
-		dispatch(EditProfile(data, navigate));
-	};
-	/** */
 	return (
 		<div>
 			<Menu />
@@ -279,7 +260,7 @@ export default function Profile() {
 																	className="form-control"
 																	id="inputAdr"
 																	placeholder="Adresse"
-																	onChange={handleChange}
+																	// onChange={handleChange}
 																/>
 															</div>
 														</div>
@@ -297,7 +278,7 @@ export default function Profile() {
 																	className="form-control"
 																	id="inputTel"
 																	placeholder="Telephone"
-																	onChange={handleChange}
+																	// onChange={handleChange}
 																/>
 															</div>
 														</div>
@@ -306,7 +287,7 @@ export default function Profile() {
 															<div className="offset-sm-2 col-sm-10">
 																<button
 																	className="btn btn-danger"
-																	onClick={handleEditProfile}
+																	// onClick={handleEditProfile}
 																>
 																	Valider
 																</button>
